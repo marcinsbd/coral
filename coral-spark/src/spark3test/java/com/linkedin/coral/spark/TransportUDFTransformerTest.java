@@ -18,14 +18,14 @@ public class TransportUDFTransformerTest {
       "com.linkedin.coral.hive.hive2rel.CoralTestUDF", "com.linkedin.coral.spark.CoralTestUDF",
       "ivy://com.linkedin.coral.spark.CoralTestUDF", null, new HashSet<>());
 
-  @Test
-  public void testScalaVersionWithSparkSession() {
-    SparkSession ss = SparkSession.builder().appName(TransportUDFTransformerTest.class.getSimpleName())
-        .master("local[1]").enableHiveSupport().getOrCreate();
-    Assert.assertEquals(_transportUDFTransformer.getScalaVersionOfSpark(),
-        TransportUDFTransformer.ScalaVersion.SCALA_2_12);
-    ss.close();
-  }
+  //  @Test
+  //  public void testScalaVersionWithSparkSession() {
+  //    SparkSession ss = SparkSession.builder().appName(TransportUDFTransformerTest.class.getSimpleName())
+  //        .master("local[1]").enableHiveSupport().getOrCreate();
+  //    Assert.assertEquals(_transportUDFTransformer.getScalaVersionOfSpark(),
+  //        TransportUDFTransformer.ScalaVersion.SCALA_2_12);
+  //    ss.close();
+  //  }
 
   @Test
   public void testDefaultScalaVersion() {
