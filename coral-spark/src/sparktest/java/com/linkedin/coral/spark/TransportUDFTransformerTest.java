@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2025 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -7,7 +7,6 @@ package com.linkedin.coral.spark;
 
 import java.util.HashSet;
 
-import org.apache.spark.sql.SparkSession;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
