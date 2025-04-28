@@ -6,7 +6,7 @@ dependencies {
   implementation project(path: ':coral-common')
   implementation project(path: ':coral-hive')
   implementation project(path: ':coral-schema')
-  implementation('org.apache.spark:spark-sql_2.13:3.2.0') {
+  implementation('org.apache.spark:spark-sql_2.13:3.4.3') {
     exclude group: 'com.fasterxml.jackson', module: 'jackson-bom'
     exclude group: 'org.apache.avro', module: 'avro-mapred'
   }
