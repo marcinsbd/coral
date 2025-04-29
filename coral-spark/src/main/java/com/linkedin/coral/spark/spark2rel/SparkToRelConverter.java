@@ -24,8 +24,8 @@ import org.apache.hadoop.hive.metastore.api.Table;
 import com.linkedin.coral.common.HiveMetastoreClient;
 import com.linkedin.coral.common.HiveRelBuilder;
 import com.linkedin.coral.common.ToRelConverter;
+import com.linkedin.coral.hive.hive2rel.CoralConvertletTable;
 import com.linkedin.coral.hive.hive2rel.DaliOperatorTable;
-import com.linkedin.coral.hive.hive2rel.HiveConvertletTable;
 import com.linkedin.coral.hive.hive2rel.HiveSqlValidator;
 import com.linkedin.coral.hive.hive2rel.functions.HiveFunctionResolver;
 import com.linkedin.coral.hive.hive2rel.functions.StaticHiveFunctionRegistry;
@@ -59,7 +59,7 @@ public class SparkToRelConverter extends ToRelConverter {
 
   @Override
   protected SqlRexConvertletTable getConvertletTable() {
-    return new HiveConvertletTable();
+    return new CoralConvertletTable();
   }
 
   @Override
@@ -94,5 +94,4 @@ public class SparkToRelConverter extends ToRelConverter {
     }
     return str;
   }
-
 }
