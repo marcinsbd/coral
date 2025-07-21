@@ -13,7 +13,7 @@ configurations {
 }
 
 repositories {
-  maven { url "http://conjars.org/repo" }
+  maven { url "https://conjars.org/repo" }
 }
 
 // Exclusions required to fix issue of multiple bindings on the class path
@@ -29,6 +29,17 @@ dependencies {
   implementation project(':coral-trino')
   implementation project(':coral-spark')
   implementation project(':coral-visualization')
+
+  implementation(deps.'linkedin-calcite-core') {
+    artifact {
+      name = 'calcite-core'
+      extension = 'jar'
+      type = 'jar'
+      classifier = 'shaded'
+    }
+  }
+
+  implementation deps.'hadoop'.'hadoop-common'
 
   implementation('org.apache.hive:hive-exec:1.2.2:core') {
     exclude group: 'org.apache.calcite', module: 'calcite-core'

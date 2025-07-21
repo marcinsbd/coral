@@ -1,24 +1,44 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
-apply plugin: "com.github.johnrengelman.shadow"
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+plugins {
+  id 'com.github.johnrengelman.shadow'
+}
+
+def relocatableConfig = configurations.create("relocatable") {
+  canBeResolved = true
+  canBeConsumed = false
+}
 
 dependencies {
   compileOnly 'io.trino:trino-parser:355'
+
+  runtimeOnly 'io.trino:trino-parser:355'
+
+  add("relocatable", 'io.trino:trino-parser:355')
 }
 
-task relocateShadowJar(type: ConfigureShadowRelocation) {
-  target = tasks.shadowJar
-  prefix = 'coral.shading'
-}
+//tasks.register('relocateShadowJar', ConfigureShadowRelocation) {
+//  target = tasks.named('shadowJar').get()
+//  prefix = 'coral.shading'
+//}
 
-shadowJar {
-  configurations = [
-    project.configurations.compileOnly
-  ]
-  dependsOn(relocateShadowJar)
+//tasks.named('shadowJar') {
+//  dependsOn tasks.named('relocateShadowJar')
+//  from {
+//    relocatableConfig
+//  }
+//  classifier = null
+//}
+
+tasks.named('shadowJar') {
+  relocate 'io.trino', 'coral.shading.io.trino'
+
+  classifier = null
 }
 
 // Rename shadow jar to original artifact name, so that 'coral-trino-parser-x.x.x.jar' itself is the shadow jar
 jar {
   enabled = false
-  dependsOn(shadowJar { classifier = null })
+  dependsOn(shadowJar)
 }

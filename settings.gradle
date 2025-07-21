@@ -8,7 +8,6 @@ def modules = [
   'coral-schema',
   'coral-spark-plan',
   'coral-trino',
-  'coral-service',
   'coral-visualization',
   'shading'
 ]
@@ -19,7 +18,7 @@ modules.each { module ->
   }
   file(module).eachDir { submodule ->
     if (!submodule.name.startsWith('.')) {
-      include "${module}:${submodule.name}"
+      include ":${module}:${submodule.name}"
     }
   }
 }
