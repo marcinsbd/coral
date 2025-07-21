@@ -1,21 +1,46 @@
 apply from: "spark_itest.gradle"
 
+//  implementation('org.apache.spark:spark-sql_2.13:3.3.1') {
+
 dependencies {
-  compile project(':coral-hive')
-  compile project(':coral-schema')
+  implementation project(path: ':coral-common')
+  implementation project(path: ':coral-hive')
+  implementation project(path: ':coral-schema')
+  implementation('org.apache.spark:spark-sql_2.13:3.4.3') {
+    exclude group: 'com.fasterxml.jackson', module: 'jackson-bom'
+    exclude group: 'org.apache.avro', module: 'avro-mapred'
+  }
 
+  implementation(deps.'linkedin-calcite-core') {
+    artifact {
+      name = 'calcite-core'
+      extension = 'jar'
+      type = 'jar'
+      classifier = 'shaded'
+    }
+  }
 
-  compileOnly deps.'spark'.'sql'
+  implementation(deps.'hive'.'hive-metastore') {
+    exclude group: 'com.linkedin.metastore-autometrics', module: 'autometrics-reporter'
+    exclude group: 'com.linkedin.metastore-audit', module: 'metastore-audit-logging'
+    // avro-tools brings in whole bunch of hadoop classes causing duplicates and conflicts
+    exclude group: 'org.apache.avro', module: 'avro-tools'
+  }
 
-  testCompile(deps.'hive'.'hive-exec-core') {
+  implementation deps.'hadoop'.'hadoop-common'
+
+  compileOnly 'io.trino:trino-parser:355'
+
+  testImplementation project(':coral-trino')
+  testImplementation(deps.'hive'.'hive-exec-core') {
     exclude group: 'org.apache.avro', module: 'avro-tools'
     // These exclusions are required to prevent duplicate classes since we include
     // shaded jar above
     exclude group: 'org.apache.calcite', module: 'calcite-core'
     exclude group: 'org.apache.calcite', module: 'calcite-avatica'
   }
-  testCompile deps.'hadoop'.'hadoop-mapreduce-client-core'
-  testCompile deps.'kryo'
+  testImplementation deps.'hadoop'.'hadoop-mapreduce-client-core'
+  testImplementation deps.'kryo'
 }
 
 // Needs to enforce using Avro 1.10 because Coral-Spark depends on Coral-Schema which uses Avro 1.10

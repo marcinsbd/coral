@@ -11,8 +11,8 @@ for (String itest : itests) {
   }
 
   configurations {
-    getByName("${itest}testCompile").extendsFrom(testCompile)
-    getByName("${itest}testRuntime").extendsFrom(testRuntime)
+    getByName("${itest}testImplementation").extendsFrom(testCompile)
+    getByName("${itest}testRuntimeOnly").extendsFrom(testRuntime)
   }
 
   tasks.register("${itest}Test", Test) {
@@ -27,6 +27,6 @@ for (String itest : itests) {
 }
 
 dependencies {
-  sparktestCompile(deps.'spark'.'hive')
-  spark3testCompile(deps.'spark3'.'hive')
+  sparktestImplementation(deps.'spark'.'hive')
+  spark3testImplementation(deps.'spark3'.'hive')
 }
